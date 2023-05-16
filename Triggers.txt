@@ -1,0 +1,15 @@
+CREATE TRIGGER delete_admin
+BEFORE DELETE on admin FOR EACH ROW
+BEGIN
+    UPDATE audit_admin SET aud_adm_leavedate=CURRENT_TIMESTAMP, aud_adm_comments='Account Deleted';
+END;
+
+order-insert
+
+DELIMITER //
+CREATE TRIGGER insert_order
+BEFORE INSERT on orders FOR EACH ROW
+BEGIN
+INSERT INTO audit_product VALUES(Null,NEW.ord_user,NEW.ord_product,NEW.ord_quantity,NEW.ord_receipt_no,CURRENT_TIMESTAMP,Null);
+END //
+DELIMITER ;
